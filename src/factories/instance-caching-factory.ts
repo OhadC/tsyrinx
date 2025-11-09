@@ -1,5 +1,5 @@
-import { DependencyContainer } from "../types/dependency-container";
-import { FactoryFunction } from "./factory-function";
+import type { DependencyContainer } from "../types/dependency-container";
+import type { FactoryFunction } from "./factory-function";
 
 export function instanceCachingFactory<T>(factoryFunc: FactoryFunction<T>): FactoryFunction<T> {
     let instance: T;

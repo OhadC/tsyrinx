@@ -1,13 +1,13 @@
-import { ClassProvider } from "../providers/class-provider";
-import { FactoryProvider } from "../providers/factory-provider";
-import { InjectionToken } from "../providers/injection-token";
-import { TokenProvider } from "../providers/token-provider";
-import { ValueProvider } from "../providers/value-provider";
+import type { ClassProvider } from "../providers/class-provider";
+import type { FactoryProvider } from "../providers/factory-provider";
+import type { InjectionToken } from "../providers/injection-token";
+import type { TokenProvider } from "../providers/token-provider";
+import type { ValueProvider } from "../providers/value-provider";
 import { ResolutionContext } from "../resolution-context";
-import { constructor } from "./constructor";
-import { Disposable } from "./disposable";
-import { InterceptionOptions } from "./interceptor-options";
-import { RegistrationOptions } from "./registration-options";
+import type { constructor } from "./constructor";
+import type { Disposable } from "./disposable";
+import type { InterceptionOptions } from "./interceptor-options";
+import type { RegistrationOptions } from "./registration-options";
 
 export type ResolutionType = "Single" | "All";
 

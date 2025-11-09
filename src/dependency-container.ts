@@ -2,25 +2,25 @@ import { InjectionContext } from "./injection-context";
 import { Interceptors } from "./interceptors";
 import { DelayedConstructor } from "./lazy-helpers";
 import { isClassProvider, isFactoryProvider, isNormalToken, isTokenProvider, isValueProvider } from "./providers";
-import { ClassProvider } from "./providers/class-provider";
-import { FactoryProvider } from "./providers/factory-provider";
-import { InjectionToken, isConstructorToken } from "./providers/injection-token";
-import { isProvider, Provider } from "./providers/provider";
-import { TokenProvider } from "./providers/token-provider";
-import { ValueProvider } from "./providers/value-provider";
+import type { ClassProvider } from "./providers/class-provider";
+import type { FactoryProvider } from "./providers/factory-provider";
+import { isConstructorToken, type InjectionToken } from "./providers/injection-token";
+import { isProvider, type Provider } from "./providers/provider";
+import type { TokenProvider } from "./providers/token-provider";
+import type { ValueProvider } from "./providers/value-provider";
 import { Registry } from "./registry";
 import { ResolutionContext } from "./resolution-context";
-import { constructor } from "./types/constructor";
-import {
+import type { constructor } from "./types/constructor";
+import type {
     DependencyContainer,
     PostResolutionInterceptorCallback,
     PreResolutionInterceptorCallback,
     ResolutionType,
 } from "./types/dependency-container";
-import { Disposable, isDisposable } from "./types/disposable";
-import { InterceptionOptions } from "./types/interceptor-options";
+import { isDisposable, type Disposable } from "./types/disposable";
+import type { InterceptionOptions } from "./types/interceptor-options";
 import { Lifecycle } from "./types/lifecycle";
-import { RegistrationOptions } from "./types/registration-options";
+import type { RegistrationOptions } from "./types/registration-options";
 
 export type Registration<T = any> = {
     provider: Provider<T>;

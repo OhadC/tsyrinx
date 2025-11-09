@@ -12,6 +12,7 @@
         "skipLibCheck": true,
         "esModuleInterop": true,
         "isolatedModules": true,
+        "verbatimModuleSyntax": true,
         "resolveJsonModule": true,
         "strict": true,
         "forceConsistentCasingInFileNames": true,

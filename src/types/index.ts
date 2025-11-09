@@ -1,9 +1,10 @@
-export { constructor } from "./constructor";
-export { DependencyContainer } from "./dependency-container";
-export { Dictionary } from "./dictionary";
-export { Disposable } from "./disposable";
-export { Frequency } from "./frequency";
-export { InterceptionOptions } from "./interceptor-options";
+export type { constructor } from "./constructor";
+export type { DependencyContainer } from "./dependency-container";
+export type { Dictionary } from "./dictionary";
+export type { Disposable } from "./disposable";
+export type { Frequency } from "./frequency";
+export type { InterceptionOptions } from "./interceptor-options";
 export { Lifecycle } from "./lifecycle";
-export { RegistrationOptions } from "./registration-options";
-export { Transform } from "./transform";
+export type { RegistrationOptions } from "./registration-options";
+export type { Transform } from "./transform";
+

@@ -1,7 +1,7 @@
 import { instance as globalContainer } from "../dependency-container";
-import { InjectionToken } from "../providers/injection-token";
-import { Provider } from "../providers/provider";
-import { RegistrationOptions } from "../types/registration-options";
+import type { InjectionToken } from "../providers/injection-token";
+import type { Provider } from "../providers/provider";
+import type { RegistrationOptions } from "../types/registration-options";
 
 /**
  * Class decorator factory that allows constructor dependencies to be registered at runtime.

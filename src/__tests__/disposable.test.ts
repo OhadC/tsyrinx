@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 
-import { Disposable, isDisposable } from "../types/disposable";
+import { type Disposable, isDisposable } from "../types/disposable";
 
 describe("Disposable", () => {
     describe("isDisposable", () => {

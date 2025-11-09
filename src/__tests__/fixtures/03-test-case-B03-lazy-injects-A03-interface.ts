@@ -1,7 +1,7 @@
 import { registry } from "../../decorators";
 import { inject } from "../../injectors";
 import { delay } from "../../lazy-helpers";
-import { A03, Ia03 } from "./03-test-case-A03-lazy-injects-B03-interface";
+import { A03, type Ia03 } from "./03-test-case-A03-lazy-injects-B03-interface";
 
 export interface Ib03 {
     name: string;

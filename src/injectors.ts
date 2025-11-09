@@ -1,6 +1,6 @@
 import { InjectionContext } from "./injection-context";
-import { InjectionToken } from "./providers";
-import { Transform } from "./types";
+import type { InjectionToken } from "./providers";
+import type { Transform } from "./types";
 
 export function inject<T>(token: InjectionToken<T>, options?: { isOptional?: boolean }): T {
     const container = InjectionContext.getCurrentDependencyContainer();

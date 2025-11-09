@@ -1,6 +1,6 @@
 import { instance as globalContainer } from "../dependency-container";
-import { InjectionToken } from "../providers";
-import { constructor } from "../types/constructor";
+import type { InjectionToken } from "../providers";
+import type { constructor } from "../types/constructor";
 import { Lifecycle } from "../types/lifecycle";
 
 /**

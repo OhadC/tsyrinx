@@ -1,6 +1,7 @@
-export { ClassProvider, isClassProvider } from "./class-provider";
-export { FactoryProvider, isFactoryProvider } from "./factory-provider";
-export { InjectionToken, isNormalToken } from "./injection-token";
-export { Provider } from "./provider";
-export { isTokenProvider, TokenProvider } from "./token-provider";
-export { isValueProvider, ValueProvider } from "./value-provider";
+export { isClassProvider, type ClassProvider } from "./class-provider";
+export { isFactoryProvider, type FactoryProvider } from "./factory-provider";
+export { isNormalToken, type InjectionToken } from "./injection-token";
+export { type Provider } from "./provider";
+export { isTokenProvider, type TokenProvider } from "./token-provider";
+export { isValueProvider, type ValueProvider } from "./value-provider";
+

@@ -1,6 +1,6 @@
 import { container } from "..";
 import { injectAllWithTransform, injectWithTransform } from "../injectors";
-import { Transform } from "../types/transform";
+import type { Transform } from "../types/transform";
 
 afterEach(() => {
     container.reset();

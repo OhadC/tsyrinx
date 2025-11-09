@@ -1,6 +1,6 @@
 import { instance as globalContainer } from "../dependency-container";
-import { InjectionToken } from "../providers/injection-token";
-import { constructor } from "../types/constructor";
+import type { InjectionToken } from "../providers/injection-token";
+import type { constructor } from "../types/constructor";
 
 /**
  * Class decorator factory that allows the class' dependencies to be injected

@@ -4,4 +4,5 @@ export * from "./factories";
 // export * from './injectors';
 export { delay } from "./lazy-helpers";
 export * from "./providers";
-export { DependencyContainer, Disposable, Frequency, Lifecycle, RegistrationOptions } from "./types";
+export { Lifecycle, type DependencyContainer, type Disposable, type Frequency, type RegistrationOptions } from "./types";
+

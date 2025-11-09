@@ -1,6 +1,6 @@
-import { constructor } from "../types/constructor";
-import { DependencyContainer } from "../types/dependency-container";
-import { FactoryFunction } from "./factory-function";
+import type { constructor } from "../types/constructor";
+import type { DependencyContainer } from "../types/dependency-container";
+import type { FactoryFunction } from "./factory-function";
 
 export function predicateAwareClassFactory<T>(
     predicate: (dependencyContainer: DependencyContainer) => boolean,

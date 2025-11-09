@@ -1,5 +1,5 @@
 import { ResolutionContext } from "./resolution-context";
-import { DependencyContainer } from "./types";
+import type { DependencyContainer } from "./types";
 
 export class InjectionContext {
     private static currentDependencyContainer: DependencyContainer | null = null;

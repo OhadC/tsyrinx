@@ -1,5 +1,5 @@
-import { DependencyContainer } from "../types/dependency-container";
-import { FactoryFunction } from "./factory-function";
+import type { DependencyContainer } from "../types/dependency-container";
+import type { FactoryFunction } from "./factory-function";
 
 export function instancePerContainerCachingFactory<T>(factoryFunc: FactoryFunction<T>): FactoryFunction<T> {
     const cache = new WeakMap<DependencyContainer, T>();

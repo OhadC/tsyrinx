@@ -1,5 +1,5 @@
 import { instance as globalContainer } from "../dependency-container";
-import { constructor } from "../types/constructor";
+import type { constructor } from "../types/constructor";
 
 /**
  * Class decorator factory that registers the class as a singleton within

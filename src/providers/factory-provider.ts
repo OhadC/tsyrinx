@@ -1,5 +1,5 @@
-import { DependencyContainer } from "../types/dependency-container";
-import { Provider } from "./provider";
+import type { DependencyContainer } from "../types/dependency-container";
+import type { Provider } from "./provider";
 
 /**
  * Provide a dependency using a factory.

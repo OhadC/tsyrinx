@@ -1,4 +1,4 @@
-import { InjectionToken } from ".";
+import type { InjectionToken } from ".";
 
 export abstract class RegistryBase<T> {
     protected _registryMap = new Map<InjectionToken<any>, T[]>();

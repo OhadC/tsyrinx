@@ -1,6 +1,6 @@
 {
     "name": "tsyrinx",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A lightweight, explicit DI container for JavaScript/TypeScript — no reflect-metadata, no decorators.",
     "type": "commonjs",
     "main": "./dist/index.js",
@@ -24,7 +24,8 @@
         "test:coverage": "jest --config test/jest.config.js --coverage",
         "lint": "eslint --ext \".js,.jsx,.ts,.tsx\" \"./src\"",
         "lint:fix": "eslint --fix --ext \".js,.jsx,.ts,.tsx\" \"./src\"",
-        "format": "prettier --write **/*.{ts,tsx,scss,json}"
+        "format": "prettier --write **/*.{ts,tsx,scss,json}",
+        "publish": "npm publish --access public"
     },
     "repository": {
         "type": "git",

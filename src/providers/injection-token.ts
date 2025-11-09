@@ -1,6 +1,6 @@
 import { DelayedConstructor } from "../lazy-helpers";
-import { constructor } from "../types/constructor";
-import { Transform } from "../types/transform";
+import type { constructor } from "../types/constructor";
+import type { Transform } from "../types/transform";
 
 export type InjectionToken<T = any> = constructor<T> | string | symbol | DelayedConstructor<T>;
 

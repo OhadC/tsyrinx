@@ -3,9 +3,9 @@ import { injectable, registry, singleton } from "../decorators";
 import { instance as globalContainer } from "../dependency-container";
 import { instanceCachingFactory, instancePerContainerCachingFactory, predicateAwareClassFactory } from "../factories";
 import { inject, injectAll } from "../injectors";
-import { ValueProvider } from "../providers";
-import { DependencyContainer } from "../types";
-import { Disposable } from "../types/disposable";
+import { type ValueProvider } from "../providers";
+import { type DependencyContainer } from "../types";
+import { type Disposable } from "../types/disposable";
 import { Lifecycle } from "../types/lifecycle";
 
 interface IBar {

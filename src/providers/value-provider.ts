@@ -1,4 +1,4 @@
-import { Provider } from "./provider";
+import type { Provider } from "./provider";
 
 export interface ValueProvider<T> {
     useValue: T;

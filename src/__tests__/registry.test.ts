@@ -1,4 +1,4 @@
-import { Registration } from "../dependency-container";
+import { type Registration } from "../dependency-container";
 import { Registry } from "../registry";
 import { Lifecycle } from "../types/lifecycle";
 
