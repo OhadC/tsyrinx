@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/interface-name-prefix */
 
-import { inject, injectable, registry, singleton } from "../decorators";
-import { injectAll } from "../decorators/inject-all";
+import { injectable, registry, singleton } from "../decorators";
 import { instance as globalContainer } from "../dependency-container";
 import { instanceCachingFactory, instancePerContainerCachingFactory, predicateAwareClassFactory } from "../factories";
+import { inject, injectAll } from "../injectors";
 import { ValueProvider } from "../providers";
 import { DependencyContainer } from "../types";
 import { Disposable } from "../types/disposable";
@@ -25,9 +25,8 @@ test("a singleton registration can be redirected", () => {
 
     class MyServiceMock {}
 
-    @injectable()
     class MyClass {
-        constructor(public myService: MyService) {}
+        public myService = inject(MyService);
     }
 
     globalContainer.registerSingleton(MyService, MyServiceMock);
@@ -206,14 +205,15 @@ test("resolves anonymous classes separately", () => {
     expect(globalContainer.resolve(ctor1) instanceof ctor1).toBeTruthy();
     expect(globalContainer.resolve(ctor2) instanceof ctor2).toBeTruthy();
 });
-test("resolves dependencies of superclass with no constructor", () => {
+test("resolves dependencies of superclass", () => {
     class Dependency {}
-    @injectable()
+
     class SuperClass {
-        constructor(public dependency: Dependency) {}
+        public dependency = inject(Dependency);
     }
-    @injectable()
+
     class SubClass extends SuperClass {}
+
     expect(globalContainer.resolve(SubClass).dependency).toBeInstanceOf(Dependency);
 });
 // --- resolveAll() ---
@@ -263,7 +263,7 @@ test("resolves all transient instances when not registered", () => {
     expect(foo1[0]).not.toBe(foo2[0]);
 });
 
-test("resolves all dependencies that provided an additional token in the @injectable() decorator", () => {
+test("resolves all dependencies that provided an additional token in the  decorator", () => {
     interface Bar {
         value(): string;
     }
@@ -280,7 +280,7 @@ test("resolves all dependencies that provided an additional token in the @inject
     expect(foo[0] instanceof Foo).toBeTruthy();
 });
 
-test("resolves all dependencies that provided additional tokens in the @injectable() decorator", () => {
+test("resolves all dependencies that provided additional tokens in the  decorator", () => {
     interface Bar {
         value(): string;
     }
@@ -309,7 +309,7 @@ test("resolves all dependencies that provided additional tokens in the @injectab
     expect(foo2[0] instanceof Foo).toBeTruthy();
 });
 
-test("resolves all dependencies that provided additional tokens in the @injectable() decorator", () => {
+test("resolves all dependencies that provided additional tokens in the  decorator", () => {
     interface Bar {
         value(): string;
     }
@@ -338,14 +338,12 @@ test("resolves all dependencies that provided additional tokens in the @injectab
 // --- isRegistered() ---
 
 test("returns true for a registered singleton class", () => {
-    @injectable()
     class Bar implements IBar {
         public value = "";
     }
 
-    @injectable()
     class Foo {
-        constructor(public myBar: Bar) {}
+        public myBar = inject(Bar);
     }
     globalContainer.registerSingleton(Foo);
 
@@ -353,14 +351,12 @@ test("returns true for a registered singleton class", () => {
 });
 
 test("returns true for a registered class provider", () => {
-    @injectable()
     class Bar implements IBar {
         public value = "";
     }
 
-    @injectable()
     class Foo {
-        constructor(public myBar: Bar) {}
+        public myBar = inject(Bar);
     }
     globalContainer.register(Foo, { useClass: Foo });
 
@@ -368,14 +364,12 @@ test("returns true for a registered class provider", () => {
 });
 
 test("returns true for a registered value provider", () => {
-    @injectable()
     class Bar implements IBar {
         public value = "";
     }
 
-    @injectable()
     class Foo {
-        constructor(public myBar: Bar) {}
+        public myBar = inject(Bar);
     }
     globalContainer.register(Foo, { useValue: {} } as ValueProvider<any>);
 
@@ -383,14 +377,12 @@ test("returns true for a registered value provider", () => {
 });
 
 test("returns true for a registered token provider", () => {
-    @injectable()
     class Bar implements IBar {
         public value = "";
     }
 
-    @injectable()
     class Foo {
-        constructor(public myBar: Bar) {}
+        public myBar = inject(Bar);
     }
     globalContainer.register(Foo, { useToken: "Bar" });
 
@@ -429,93 +421,7 @@ test("clears cached instances from container.resolve() calls", () => {
     expect(instance3).toBeInstanceOf(Foo);
 });
 
-// --- @injectable ---
-
-test("@injectable resolves when not using DI", () => {
-    @injectable()
-    class Bar implements IBar {
-        public value = "";
-    }
-
-    @injectable()
-    class Foo {
-        constructor(public myBar: Bar) {}
-    }
-    const myValue = "test";
-    const myBar = new Bar();
-    myBar.value = myValue;
-
-    const myFoo = new Foo(myBar);
-
-    expect(myFoo.myBar.value).toBe(myValue);
-});
-
-test("@injectable resolves when using DI", () => {
-    @injectable()
-    class Bar implements IBar {
-        public value = "";
-    }
-
-    @injectable()
-    class Foo {
-        constructor(public myBar: Bar) {}
-    }
-    const myFoo = globalContainer.resolve(Foo);
-
-    expect(myFoo.myBar.value).toBe("");
-});
-
-test("@injectable resolves nested dependencies when using DI", () => {
-    @injectable()
-    class Bar implements IBar {
-        public value = "";
-    }
-    @injectable()
-    class Foo {
-        constructor(public myBar: Bar) {}
-    }
-    @injectable()
-    class FooBar {
-        constructor(public myFoo: Foo) {}
-    }
-    const myFooBar = globalContainer.resolve(FooBar);
-
-    expect(myFooBar.myFoo.myBar.value).toBe("");
-});
-
-test("@injectable preserves static members", () => {
-    const value = "foobar";
-
-    @injectable()
-    class MyStatic {
-        public static testVal = value;
-
-        public static testFunc(): string {
-            return value;
-        }
-    }
-
-    expect(MyStatic.testFunc()).toBe(value);
-    expect(MyStatic.testVal).toBe(value);
-});
-
-test("@injectable handles optional params", () => {
-    @injectable()
-    class Bar implements IBar {
-        public value = "";
-    }
-    @injectable()
-    class Foo {
-        constructor(public myBar: Bar) {}
-    }
-    @injectable()
-    class MyOptional {
-        constructor(public myFoo?: Foo) {}
-    }
-
-    const myOptional = globalContainer.resolve(MyOptional);
-    expect(myOptional.myFoo instanceof Foo).toBeTruthy();
-});
+// --- @singleton ---
 
 test("@singleton registers class as singleton with the global container", () => {
     @singleton()
@@ -533,32 +439,12 @@ test("dependencies of an @singleton can be resolved", () => {
 
     @singleton()
     class Bar {
-        constructor(public foo: Foo) {}
+        public foo = inject(Foo);
     }
 
     const myBar = globalContainer.resolve(Bar);
 
     expect(myBar.foo instanceof Foo).toBeTruthy();
-});
-
-test("passes through the given params", () => {
-    @injectable()
-    class MyViewModel {
-        constructor(
-            public a: any,
-            public b: any,
-            public c: any,
-        ) {}
-    }
-
-    const a = {};
-    const b = {};
-    const c = {};
-    const instance = new MyViewModel(a, b, c);
-
-    expect(instance.a).toBe(a);
-    expect(instance.b).toBe(b);
-    expect(instance.c).toBe(c);
 });
 
 // --- @registry ---
@@ -571,7 +457,6 @@ test("doesn't blow up with empty args", () => {
 });
 
 test("registers by type provider", () => {
-    @injectable()
     class Bar implements IBar {
         public value = "";
     }
@@ -584,7 +469,6 @@ test("registers by type provider", () => {
 });
 
 test("registers by class provider", () => {
-    @injectable()
     class Bar implements IBar {
         public value = "";
     }
@@ -630,7 +514,6 @@ test("registers by token provider", () => {
 });
 
 test("registers by factory provider", () => {
-    @injectable()
     class Bar implements IBar {
         public value = "";
     }
@@ -649,14 +532,14 @@ test("registers by factory provider", () => {
 });
 
 test("registers mixed types", () => {
-    @injectable()
     class Bar implements IBar {
         public value = "";
     }
-    @injectable()
+
     class Foo {
-        constructor(public myBar: Bar) {}
+        public myBar = inject(Bar);
     }
+
     const registration = {
         token: "IBar",
         useClass: Bar,
@@ -688,16 +571,14 @@ test("registers by symbol token provider", () => {
 
 // --- @inject ---
 
-test("allows interfaces to be resolved from the constructor with injection token", () => {
-    @injectable()
+test("allows interfaces to be resolved from 'inject' with injection token", () => {
     class Bar implements IBar {
         public value = "";
     }
 
-    @injectable()
     @registry([{ token: Bar, useClass: Bar }])
     class FooWithInterface {
-        constructor(@inject(Bar) public myBar: IBar) {}
+        public myBar = inject<IBar>(Bar);
     }
 
     const myFoo = globalContainer.resolve(FooWithInterface);
@@ -705,13 +586,11 @@ test("allows interfaces to be resolved from the constructor with injection token
     expect(myFoo.myBar instanceof Bar).toBeTruthy();
 });
 
-test("allows interfaces to be resolved from the constructor with just a name", () => {
-    @injectable()
+test("allows interfaces to be resolved from 'inject' with just a name", () => {
     class Bar implements IBar {
         public value = "";
     }
 
-    @injectable()
     @registry([
         {
             token: "IBar",
@@ -719,7 +598,7 @@ test("allows interfaces to be resolved from the constructor with just a name", (
         },
     ])
     class FooWithInterface {
-        constructor(@inject("IBar") public myBar: IBar) {}
+        public myBar = inject<IBar>("IBar");
     }
 
     const myFoo = globalContainer.resolve(FooWithInterface);
@@ -727,9 +606,8 @@ test("allows interfaces to be resolved from the constructor with just a name", (
     expect(myFoo.myBar instanceof Bar).toBeTruthy();
 });
 test("allows for optional injection", () => {
-    @injectable()
     class FooWithInterface {
-        constructor(@inject("IBar", { isOptional: true }) public myBar?: IBar) {}
+        public myBar? = inject<IBar>("IBar", { isOptional: true });
     }
 
     const myFoo = globalContainer.resolve(FooWithInterface);
@@ -739,12 +617,10 @@ test("allows for optional injection", () => {
 });
 
 test("allows explicit array dependencies to be resolved by inject decorator", () => {
-    @injectable()
     class Foo {}
 
-    @injectable()
     class Bar {
-        constructor(@inject("FooArray") public foo: Foo[]) {}
+        public foo = inject<Foo[]>("FooArray");
     }
 
     const fooArray = [new Foo()];
@@ -770,9 +646,8 @@ test("injects all dependencies bound to a given interface", () => {
         public str = "foo2";
     }
 
-    @injectable()
     class Bar {
-        constructor(@injectAll("Foo") public foo: Foo[]) {}
+        public foo = injectAll<Foo>("Foo");
     }
 
     globalContainer.register<Foo>("Foo", { useClass: FooImpl1 });
@@ -790,9 +665,8 @@ test("does not throw when injecting all dependencies bound to a given interface 
         str: string;
     }
 
-    @injectable()
     class Bar {
-        constructor(@injectAll("Foo", { isOptional: true }) public foo: Foo[]) {}
+        public foo = injectAll<Foo>("Foo", { isOptional: true });
     }
 
     const bar = globalContainer.resolve<Bar>(Bar);
@@ -801,12 +675,10 @@ test("does not throw when injecting all dependencies bound to a given interface 
 });
 
 test("allows array dependencies to be resolved if a single instance is in the container", () => {
-    @injectable()
     class Foo {}
 
-    @injectable()
     class Bar {
-        constructor(@injectAll(Foo) public foo: Foo[]) {}
+        public foo = injectAll<Foo>(Foo);
     }
     globalContainer.register<Foo>(Foo, { useClass: Foo });
     globalContainer.register<Bar>(Bar, { useClass: Bar });

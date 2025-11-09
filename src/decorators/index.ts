@@ -1,8 +1,3 @@
-export { autoInjectable } from "./auto-injectable";
-export { inject } from "./inject";
-export { injectAll } from "./inject-all";
-export { injectAllWithTransform } from "./inject-all-with-transform";
-export { injectWithTransform } from "./inject-with-transform";
 export { injectable } from "./injectable";
 export { registry } from "./registry";
 export { scoped } from "./scoped";

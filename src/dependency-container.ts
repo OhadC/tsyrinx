@@ -1,10 +1,10 @@
-import { formatErrorCtor } from "./error-helpers";
+import { InjectionContext } from "./injection-context";
 import { Interceptors } from "./interceptors";
 import { DelayedConstructor } from "./lazy-helpers";
 import { isClassProvider, isFactoryProvider, isNormalToken, isTokenProvider, isValueProvider } from "./providers";
 import { ClassProvider } from "./providers/class-provider";
 import { FactoryProvider } from "./providers/factory-provider";
-import { InjectionToken, isConstructorToken, isTokenDescriptor, isTransformDescriptor, TokenDescriptor } from "./providers/injection-token";
+import { InjectionToken, isConstructorToken } from "./providers/injection-token";
 import { isProvider, Provider } from "./providers/provider";
 import { TokenProvider } from "./providers/token-provider";
 import { ValueProvider } from "./providers/value-provider";
@@ -27,10 +27,6 @@ export type Registration<T = any> = {
     options: RegistrationOptions;
     instance?: T;
 };
-
-export type ParamInfo = TokenDescriptor | InjectionToken<any>;
-
-export const typeInfo = new Map<constructor<any>, ParamInfo[]>();
 
 /** Dependency Container */
 class InternalDependencyContainer implements DependencyContainer {
@@ -416,58 +412,18 @@ class InternalDependencyContainer implements DependencyContainer {
 
     private construct<T>(ctor: constructor<T> | DelayedConstructor<T>, context: ResolutionContext): T {
         if (ctor instanceof DelayedConstructor) {
-            return ctor.createProxy((target: constructor<T>) => this.resolve(target, context));
+            return ctor.createProxy((target: constructor<T>) =>
+                InjectionContext.runWithContext(this, context, () => this.resolve(target, context)),
+            );
         }
 
-        const instance: T = (() => {
-            const paramInfo = typeInfo.get(ctor);
-            if (!paramInfo || paramInfo.length === 0) {
-                if (ctor.length === 0) {
-                    return new ctor();
-                } else {
-                    throw new Error(`TypeInfo not known for "${ctor.name}"`);
-                }
-            }
-
-            const params = paramInfo.map(this.resolveParams(context, ctor));
-
-            return new ctor(...params);
-        })();
+        const instance: T = InjectionContext.runWithContext(this, context, () => new ctor());
 
         if (isDisposable(instance)) {
             this.disposables.add(instance);
         }
 
         return instance;
-    }
-
-    private resolveParams<T>(context: ResolutionContext, ctor: constructor<T>) {
-        return (param: ParamInfo, idx: number) => {
-            try {
-                if (isTokenDescriptor(param)) {
-                    if (isTransformDescriptor(param)) {
-                        return param.multiple
-                            ? this.resolve(param.transform).transform(
-                                  this.resolveAll(param.token, new ResolutionContext(), param.isOptional),
-                                  ...param.transformArgs,
-                              )
-                            : this.resolve(param.transform).transform(
-                                  this.resolve(param.token, context, param.isOptional),
-                                  ...param.transformArgs,
-                              );
-                    } else {
-                        return param.multiple
-                            ? this.resolveAll(param.token, new ResolutionContext(), param.isOptional)
-                            : this.resolve(param.token, context, param.isOptional);
-                    }
-                } else if (isTransformDescriptor(param)) {
-                    return this.resolve(param.transform, context).transform(this.resolve(param.token, context), ...param.transformArgs);
-                }
-                return this.resolve(param, context);
-            } catch (e) {
-                throw new Error(formatErrorCtor(ctor, idx, e as Error));
-            }
-        };
     }
 
     private ensureNotDisposed(): void {

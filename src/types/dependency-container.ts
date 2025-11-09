@@ -48,8 +48,8 @@ export interface DependencyContainer extends Disposable {
      * @param token The dependency token
      * @return An instance of the dependency
      */
-    resolve<T>(token: InjectionToken<T>, context?: ResolutionContext): T;
-    resolveAll<T>(token: InjectionToken<T>, context?: ResolutionContext): T[];
+    resolve<T>(token: InjectionToken<T>, context?: ResolutionContext, isOptional?: boolean): T;
+    resolveAll<T>(token: InjectionToken<T>, context?: ResolutionContext, isOptional?: boolean): T[];
 
     /**
      * Check if the given dependency is registered

@@ -2,7 +2,6 @@ import { instance as globalContainer } from "../dependency-container";
 import { InjectionToken } from "../providers";
 import { constructor } from "../types/constructor";
 import { Lifecycle } from "../types/lifecycle";
-import { injectable } from "./injectable";
 
 /**
  * Class decorator factory that registers the class as a scoped dependency within
@@ -15,7 +14,6 @@ export function scoped<T>(
     token?: InjectionToken<T>,
 ): (target: constructor<T>) => void {
     return function (target: constructor<T>): void {
-        injectable()(target);
         globalContainer.register(token || target, target, {
             lifecycle,
         });

@@ -1,6 +1,6 @@
-import { injectable } from "../decorators/injectable";
 import { scoped } from "../decorators/scoped";
 import { instance as globalContainer } from "../dependency-container";
+import { inject } from "../injectors";
 import { Lifecycle } from "../types/lifecycle";
 
 describe("Scoped registrations", () => {
@@ -12,22 +12,17 @@ describe("Scoped registrations", () => {
         it("uses the same instance during the same resolution chain", () => {
             class X {}
 
-            @injectable()
             class B {
-                constructor(public x: X) {}
+                public x = inject(X);
             }
 
-            @injectable()
             class C {
-                constructor(public x: X) {}
+                public x = inject(X);
             }
 
-            @injectable()
             class A {
-                constructor(
-                    public b: B,
-                    public c: C,
-                ) {}
+                public b = inject(B);
+                public c = inject(C);
             }
 
             globalContainer.register(X, { useClass: X }, { lifecycle: Lifecycle.ResolutionScoped });
@@ -39,14 +34,12 @@ describe("Scoped registrations", () => {
         it("uses different instances for difference resolution chains", () => {
             class X {}
 
-            @injectable()
             class B {
-                constructor(public x: X) {}
+                public x = inject(X);
             }
 
-            @injectable()
             class A {
-                constructor(public b: B) {}
+                public b = inject(B);
             }
 
             globalContainer.register(X, { useClass: X }, { lifecycle: Lifecycle.ResolutionScoped });

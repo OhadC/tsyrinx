@@ -1,7 +1,5 @@
-import { autoInjectable, container } from "..";
-import { injectable } from "../decorators";
-import { injectAllWithTransform } from "../decorators/inject-all-with-transform";
-import { injectWithTransform } from "../decorators/inject-with-transform";
+import { container } from "..";
+import { injectAllWithTransform, injectWithTransform } from "../injectors";
 import { Transform } from "../types/transform";
 
 afterEach(() => {
@@ -17,9 +15,8 @@ test("Injecting with transform should work", () => {
         }
     }
 
-    @injectable()
     class Foo {
-        constructor(@injectWithTransform(Bar, BarTransform) public value: string) {}
+        public value = injectWithTransform(Bar, BarTransform);
     }
 
     const result = container.resolve(Foo);
@@ -34,15 +31,14 @@ test("Injecting with transform should work passing a parameter from the decorato
         }
     }
 
-    class BarTransform implements Transform<Bar, string> {
+    class BarTransform implements Transform<Bar, string, [string]> {
         public transform(bar: Bar, str: string): string {
             return bar.repeat(str);
         }
     }
 
-    @injectable()
     class Foo {
-        constructor(@injectWithTransform(Bar, BarTransform, "b") public value: string) {}
+        public value = injectWithTransform(Bar, BarTransform, "b");
     }
 
     const result = container.resolve(Foo);
@@ -57,42 +53,19 @@ test("Injecting with transform should work passing parameters from the decorator
         }
     }
 
-    class BarTransform implements Transform<Bar, string> {
+    class BarTransform implements Transform<Bar, string, [string, string]> {
         public transform(bar: Bar, str1: string, str2: string): string {
             return bar.concat(str1, str2);
         }
     }
 
-    @injectable()
     class Foo {
-        constructor(
-            @injectWithTransform(Bar, BarTransform, "a", "b")
-            public value: string,
-        ) {}
+        public value = injectWithTransform(Bar, BarTransform, "a", "b");
     }
 
     const result = container.resolve(Foo);
 
     expect(result.value).toEqual("ab");
-});
-
-test("Transformation works with @autoInjectable", () => {
-    class Bar {}
-
-    class BarTransform {
-        public transform(): string {
-            return "Transformed from bar";
-        }
-    }
-
-    @autoInjectable()
-    class Foo {
-        constructor(@injectWithTransform(Bar, BarTransform) public value?: string) {}
-    }
-
-    const myFoo = new Foo();
-
-    expect(myFoo.value).toBe("Transformed from bar");
 });
 
 test("Injecting all with transform should work", () => {
@@ -104,9 +77,8 @@ test("Injecting all with transform should work", () => {
         }
     }
 
-    @injectable()
     class Foo {
-        constructor(@injectAllWithTransform(Bar, BarTransform) public value: string) {}
+        public value = injectAllWithTransform(Bar, BarTransform);
     }
 
     const result = container.resolve(Foo);
@@ -136,12 +108,8 @@ test("Injecting all with transform should allow the transformer to act over an a
         }
     }
 
-    @injectable()
     class Bar {
-        constructor(
-            @injectAllWithTransform("FooInterface", FooTransform, "!!")
-            public value: string,
-        ) {}
+        public value = injectAllWithTransform("FooInterface", FooTransform);
     }
 
     const result = container.resolve(Bar);
@@ -165,18 +133,14 @@ test("Injecting all with transform should work with a decorator parameter", () =
     container.register<FooInterface>("FooInterface", { useClass: FooOne });
     container.register<FooInterface>("FooInterface", { useClass: FooTwo });
 
-    class FooTransform implements Transform<FooInterface[], string> {
+    class FooTransform implements Transform<FooInterface[], string, [string]> {
         public transform(foos: FooInterface[], suffix: string): string {
             return foos.map(f => f.bar + suffix).reduce((acc, f) => acc + f);
         }
     }
 
-    @injectable()
     class Bar {
-        constructor(
-            @injectAllWithTransform("FooInterface", FooTransform, "!!")
-            public value: string,
-        ) {}
+        public value = injectAllWithTransform("FooInterface", FooTransform, "!!");
     }
 
     const result = container.resolve(Bar);
@@ -200,56 +164,17 @@ test("Injecting all with transform should allow multiple decorator params", () =
     container.register<FooInterface>("FooInterface", { useClass: FooOne });
     container.register<FooInterface>("FooInterface", { useClass: FooTwo });
 
-    class FooTransform implements Transform<FooInterface[], string> {
+    class FooTransform implements Transform<FooInterface[], string, [string, string]> {
         public transform(foos: FooInterface[], delimiter: string, suffix: string): string {
             return foos.map(f => f.bar + delimiter).reduce((acc, f) => acc + f) + suffix;
         }
     }
 
-    @injectable()
     class Bar {
-        constructor(
-            @injectAllWithTransform("FooInterface", FooTransform, ",", "!!")
-            public value: string,
-        ) {}
+        public value = injectAllWithTransform("FooInterface", FooTransform, ",", "!!");
     }
 
     const result = container.resolve(Bar);
-
-    expect(result.value).toEqual("foo1,foo2,!!");
-});
-
-test("@autoInjectable should work with transforms", () => {
-    interface FooInterface {
-        bar: string;
-    }
-
-    class FooOne implements FooInterface {
-        public bar = "foo1";
-    }
-
-    class FooTwo implements FooInterface {
-        public bar = "foo2";
-    }
-
-    container.register<FooInterface>("FooInterface", { useClass: FooOne });
-    container.register<FooInterface>("FooInterface", { useClass: FooTwo });
-
-    class FooTransform implements Transform<FooInterface[], string> {
-        public transform(foos: FooInterface[], delimiter: string, suffix: string): string {
-            return foos.map(f => f.bar + delimiter).reduce((acc, f) => acc + f) + suffix;
-        }
-    }
-
-    @autoInjectable()
-    class Bar {
-        constructor(
-            @injectAllWithTransform("FooInterface", FooTransform, ",", "!!")
-            public value?: string,
-        ) {}
-    }
-
-    const result = new Bar();
 
     expect(result.value).toEqual("foo1,foo2,!!");
 });
