@@ -9,16 +9,14 @@ import { RegistrationOptions } from "../types/registration-options";
  * @return {Function} The class decorator
  */
 export function registry(
-  registrations: ({
-    token: InjectionToken;
-    options?: RegistrationOptions;
-  } & Provider<any>)[] = []
+    registrations: ({
+        token: InjectionToken;
+        options?: RegistrationOptions;
+    } & Provider<any>)[] = [],
 ): (target: any) => any {
-  return function(target: any): any {
-    registrations.forEach(({token, options, ...provider}) =>
-      globalContainer.register(token, provider as any, options)
-    );
+    return function (target: any): any {
+        registrations.forEach(({ token, options, ...provider }) => globalContainer.register(token, provider as any, options));
 
-    return target;
-  };
+        return target;
+    };
 }

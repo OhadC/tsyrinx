@@ -11,13 +11,13 @@ import { injectable } from "./injectable";
  * @return The class decorator
  */
 export function scoped<T>(
-  lifecycle: Lifecycle.ContainerScoped | Lifecycle.ResolutionScoped,
-  token?: InjectionToken<T>
+    lifecycle: Lifecycle.ContainerScoped | Lifecycle.ResolutionScoped,
+    token?: InjectionToken<T>,
 ): (target: constructor<T>) => void {
-  return function(target: constructor<T>): void {
-    injectable()(target);
-    globalContainer.register(token || target, target, {
-      lifecycle
-    });
-  };
+    return function (target: constructor<T>): void {
+        injectable()(target);
+        globalContainer.register(token || target, target, {
+            lifecycle,
+        });
+    };
 }

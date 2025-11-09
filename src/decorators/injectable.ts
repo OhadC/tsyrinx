@@ -8,18 +8,16 @@ import { constructor } from "../types/constructor";
  *
  * @return {Function} The class decorator
  */
-export function injectable<T>(options?: {
-  token?: InjectionToken<T> | InjectionToken<T>[];
-}): (target: constructor<T>) => void {
-  return function(target: constructor<T>): void {
-    if (options && options.token) {
-      if (!Array.isArray(options.token)) {
-        globalContainer.register(options.token, target);
-      } else {
-        options.token.forEach(token => {
-          globalContainer.register(token, target);
-        });
-      }
-    }
-  };
+export function injectable<T>(options?: { token?: InjectionToken<T> | InjectionToken<T>[] }): (target: constructor<T>) => void {
+    return function (target: constructor<T>): void {
+        if (options && options.token) {
+            if (!Array.isArray(options.token)) {
+                globalContainer.register(options.token, target);
+            } else {
+                options.token.forEach(token => {
+                    globalContainer.register(token, target);
+                });
+            }
+        }
+    };
 }

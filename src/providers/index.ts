@@ -4,4 +4,3 @@ export { InjectionToken, isNormalToken } from "./injection-token";
 export { Provider } from "./provider";
 export { isTokenProvider, TokenProvider } from "./token-provider";
 export { isValueProvider, ValueProvider } from "./value-provider";
-

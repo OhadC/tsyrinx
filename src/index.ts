@@ -1,18 +1,7 @@
-if (typeof Reflect === "undefined" || !Reflect.getMetadata) {
-  throw new Error(
-    `tsyringe requires a reflect polyfill. Please add 'import "reflect-metadata"' to the top of your entry point.`
-  );
-}
-
-export {
-  DependencyContainer,
-  Disposable,
-  Lifecycle,
-  RegistrationOptions,
-  Frequency
-} from "./types";
 export * from "./decorators";
+export { instance as container } from "./dependency-container";
 export * from "./factories";
+// export * from './injectors';
+export { delay } from "./lazy-helpers";
 export * from "./providers";
-export {delay} from "./lazy-helpers";
-export {instance as container} from "./dependency-container";
+export { DependencyContainer, Disposable, Frequency, Lifecycle, RegistrationOptions } from "./types";

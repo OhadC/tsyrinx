@@ -7,4 +7,3 @@ export { InterceptionOptions } from "./interceptor-options";
 export { Lifecycle } from "./lifecycle";
 export { RegistrationOptions } from "./registration-options";
 export { Transform } from "./transform";
-

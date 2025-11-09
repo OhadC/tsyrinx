@@ -1,7 +1,6 @@
 export enum Lifecycle {
-  Transient,
-  Singleton,
-  ResolutionScoped,
-  ContainerScoped
+    Transient,
+    Singleton,
+    ResolutionScoped,
+    ContainerScoped,
 }
-

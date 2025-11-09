@@ -10,17 +10,12 @@ import { Transform } from "../types/transform";
  * @returns The parameter decorator
  */
 export function injectWithTransform(
-  token: InjectionToken<any>,
-  transformer: InjectionToken<Transform<any, any>>,
-  ...args: any[]
-): (
-  target: any,
-  propertyKey: string | symbol | undefined,
-  parameterIndex: number
-) => any {
-  return defineInjectionTokenMetadata(token, {
-    transformToken: transformer,
-    args: args
-  });
+    token: InjectionToken<any>,
+    transformer: InjectionToken<Transform<any, any>>,
+    ...args: any[]
+): (target: any, propertyKey: string | symbol | undefined, parameterIndex: number) => any {
+    return defineInjectionTokenMetadata(token, {
+        transformToken: transformer,
+        args: args,
+    });
 }
-

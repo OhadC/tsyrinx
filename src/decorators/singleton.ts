@@ -9,9 +9,8 @@ import { injectable } from "./injectable";
  * @return {Function} The class decorator
  */
 export function singleton<T>(): (target: constructor<T>) => void {
-  return function(target: constructor<T>): void {
-    injectable()(target);
-    globalContainer.registerSingleton(target);
-  };
+    return function (target: constructor<T>): void {
+        injectable()(target);
+        globalContainer.registerSingleton(target);
+    };
 }
-

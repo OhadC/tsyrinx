@@ -1,8 +1,4 @@
-import {
-  InjectionToken,
-  TokenDescriptor,
-  TransformDescriptor
-} from "../providers/injection-token";
+import { InjectionToken, TokenDescriptor, TransformDescriptor } from "../providers/injection-token";
 import { defineInjectionTokenMetadata } from "../reflection-helpers";
 import { Transform } from "../types/transform";
 
@@ -12,20 +8,15 @@ import { Transform } from "../types/transform";
  * @return {Function} The parameter decorator
  */
 export function injectAllWithTransform(
-  token: InjectionToken<any>,
-  transformer: InjectionToken<Transform<[any], any>>,
-  ...args: any[]
-): (
-  target: any,
-  propertyKey: string | symbol | undefined,
-  parameterIndex: number
-) => any {
-  const data: TokenDescriptor | TransformDescriptor = {
-    token,
-    multiple: true,
-    transform: transformer,
-    transformArgs: args
-  };
-  return defineInjectionTokenMetadata(data);
+    token: InjectionToken<any>,
+    transformer: InjectionToken<Transform<[any], any>>,
+    ...args: any[]
+): (target: any, propertyKey: string | symbol | undefined, parameterIndex: number) => any {
+    const data: TokenDescriptor | TransformDescriptor = {
+        token,
+        multiple: true,
+        transform: transformer,
+        transformArgs: args,
+    };
+    return defineInjectionTokenMetadata(data);
 }
-

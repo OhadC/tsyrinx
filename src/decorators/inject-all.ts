@@ -7,18 +7,13 @@ import { defineInjectionTokenMetadata } from "../reflection-helpers";
  * @return {Function} The parameter decorator
  */
 export function injectAll(
-  token: InjectionToken<any>,
-  options?: {isOptional?: boolean}
-): (
-  target: any,
-  propertyKey: string | symbol | undefined,
-  parameterIndex: number
-) => any {
-  const data: TokenDescriptor = {
-    token,
-    multiple: true,
-    isOptional: options && options.isOptional
-  };
-  return defineInjectionTokenMetadata(data);
+    token: InjectionToken<any>,
+    options?: { isOptional?: boolean },
+): (target: any, propertyKey: string | symbol | undefined, parameterIndex: number) => any {
+    const data: TokenDescriptor = {
+        token,
+        multiple: true,
+        isOptional: options && options.isOptional,
+    };
+    return defineInjectionTokenMetadata(data);
 }
-
