@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/interface-name-prefix */
-
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { injectable, registry, singleton } from "../decorators";
 import { instance as globalContainer } from "../dependency-container";
 import { instanceCachingFactory, instancePerContainerCachingFactory, predicateAwareClassFactory } from "../factories";
@@ -160,14 +159,14 @@ test("registerType() allows for names to be registered for a given type", () => 
 });
 
 test("registerType() doesn't allow tokens to point to themselves", () => {
-    expect(() => globalContainer.registerType("Bar", "Bar")).toThrowError("Token registration cycle detected!");
+    expect(() => globalContainer.registerType("Bar", "Bar")).toThrow("Token registration cycle detected!");
 });
 
 test("registerType() doesn't allow registration cycles", () => {
     globalContainer.registerType("Bar", "Foo");
     globalContainer.registerType("Foo", "FooBar");
 
-    expect(() => globalContainer.registerType("FooBar", "Bar")).toThrowError("Token registration cycle detected!");
+    expect(() => globalContainer.registerType("FooBar", "Bar")).toThrow("Token registration cycle detected!");
 });
 
 test("executes a registered factory each time resolve is called", () => {

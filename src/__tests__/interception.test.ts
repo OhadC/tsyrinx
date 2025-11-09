@@ -8,7 +8,7 @@ test("beforeResolution interceptor gets called correctly", () => {
     globalContainer.beforeResolution(Bar, interceptorFn);
     globalContainer.resolve(Bar);
 
-    expect(interceptorFn).toBeCalled();
+    expect(interceptorFn).toHaveBeenCalled();
 });
 
 test("beforeResolution interceptor using default options gets called correctly", () => {
@@ -17,7 +17,7 @@ test("beforeResolution interceptor using default options gets called correctly",
     globalContainer.beforeResolution(Bar, interceptorFn);
     globalContainer.resolve(Bar);
 
-    expect(interceptorFn).toBeCalled();
+    expect(interceptorFn).toHaveBeenCalled();
 });
 
 test("beforeResolution interceptor does not get called when resolving other types", () => {
@@ -39,7 +39,7 @@ test("beforeResolution one-time interceptor only gets called once", () => {
     globalContainer.resolve(Bar);
     globalContainer.resolve(Bar);
 
-    expect(interceptorFn).toBeCalledTimes(1);
+    expect(interceptorFn).toHaveBeenCalledTimes(1);
 });
 
 test("beforeResolution always run interceptor gets called on each resolution", () => {
@@ -51,7 +51,7 @@ test("beforeResolution always run interceptor gets called on each resolution", (
     globalContainer.resolve(Bar);
     globalContainer.resolve(Bar);
 
-    expect(interceptorFn).toBeCalledTimes(2);
+    expect(interceptorFn).toHaveBeenCalledTimes(2);
 });
 
 test("beforeResolution multiple interceptors get called correctly", () => {
@@ -66,8 +66,8 @@ test("beforeResolution multiple interceptors get called correctly", () => {
     });
     globalContainer.resolve(Bar);
 
-    expect(interceptorFn1).toBeCalled();
-    expect(interceptorFn2).toBeCalled();
+    expect(interceptorFn1).toHaveBeenCalled();
+    expect(interceptorFn2).toHaveBeenCalled();
 });
 
 test("beforeResolution multiple interceptors get per their options", () => {
@@ -83,8 +83,8 @@ test("beforeResolution multiple interceptors get per their options", () => {
     globalContainer.resolve(Bar);
     globalContainer.resolve(Bar);
 
-    expect(interceptorFn1).toBeCalledTimes(1);
-    expect(interceptorFn2).toBeCalledTimes(2);
+    expect(interceptorFn1).toHaveBeenCalledTimes(1);
+    expect(interceptorFn2).toHaveBeenCalledTimes(2);
 });
 
 // beforeResolution .resolveAll() tests
@@ -94,7 +94,7 @@ test("beforeResolution interceptor gets called correctly on resolveAll()", () =>
     globalContainer.beforeResolution(Bar, interceptorFn);
     globalContainer.resolveAll(Bar);
 
-    expect(interceptorFn).toBeCalledWith(expect.any(Function), "All");
+    expect(interceptorFn).toHaveBeenCalledWith(expect.any(Function), "All");
 });
 
 // afterResolution .resolve() tests
@@ -119,7 +119,7 @@ test("afterResolution interceptor passes object of correct type", () => {
     });
     globalContainer.resolve(Bar);
 
-    expect(interceptorFn).toBeCalledWith(expect.any(Function), expect.any(Object), "Single");
+    expect(interceptorFn).toHaveBeenCalledWith(expect.any(Function), expect.any(Object), "Single");
 });
 
 test("afterResolution interceptor gets called correctly with default options", () => {
@@ -128,7 +128,7 @@ test("afterResolution interceptor gets called correctly with default options", (
     globalContainer.afterResolution(Bar, interceptorFn);
     globalContainer.resolve(Bar);
 
-    expect(interceptorFn).toBeCalled();
+    expect(interceptorFn).toHaveBeenCalled();
 });
 
 test("afterResolution interceptor does not get called when resolving other types", () => {
@@ -150,7 +150,7 @@ test("afterResolution one-time interceptor only gets called once", () => {
     globalContainer.resolve(Bar);
     globalContainer.resolve(Bar);
 
-    expect(interceptorFn).toBeCalledTimes(1);
+    expect(interceptorFn).toHaveBeenCalledTimes(1);
 });
 
 test("afterResolution always run interceptor gets called on each resolution", () => {
@@ -162,7 +162,7 @@ test("afterResolution always run interceptor gets called on each resolution", ()
     globalContainer.resolve(Bar);
     globalContainer.resolve(Bar);
 
-    expect(interceptorFn).toBeCalledTimes(2);
+    expect(interceptorFn).toHaveBeenCalledTimes(2);
 });
 
 test("afterResolution multiple interceptors get called correctly", () => {
@@ -177,8 +177,8 @@ test("afterResolution multiple interceptors get called correctly", () => {
     });
     globalContainer.resolve(Bar);
 
-    expect(interceptorFn1).toBeCalled();
-    expect(interceptorFn2).toBeCalled();
+    expect(interceptorFn1).toHaveBeenCalled();
+    expect(interceptorFn2).toHaveBeenCalled();
 });
 
 test("beforeResolution multiple interceptors get per their options", () => {
@@ -194,8 +194,8 @@ test("beforeResolution multiple interceptors get per their options", () => {
     globalContainer.resolve(Bar);
     globalContainer.resolve(Bar);
 
-    expect(interceptorFn1).toBeCalledTimes(1);
-    expect(interceptorFn2).toBeCalledTimes(2);
+    expect(interceptorFn1).toHaveBeenCalledTimes(1);
+    expect(interceptorFn2).toHaveBeenCalledTimes(2);
 });
 
 // afterResolution resolveAll() tests
@@ -205,5 +205,5 @@ test("afterResolution interceptor gets called correctly on resolveAll()", () => 
     globalContainer.afterResolution(Bar, interceptorFn);
     globalContainer.resolveAll(Bar);
 
-    expect(interceptorFn).toBeCalledWith(expect.any(Function), expect.any(Object), "All");
+    expect(interceptorFn).toHaveBeenCalledWith(expect.any(Function), expect.any(Object), "All");
 });

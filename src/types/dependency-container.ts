@@ -11,22 +11,18 @@ import { RegistrationOptions } from "./registration-options";
 
 export type ResolutionType = "Single" | "All";
 
-export interface PreResolutionInterceptorCallback<T = any> {
-    /**
-     * @param token The InjectionToken that was intercepted
-     * @param resolutionType The type of resolve that was called (i.e. All or Single)
-     */
-    (token: InjectionToken<T>, resolutionType: ResolutionType): void;
-}
+/**
+* @param token The InjectionToken that was intercepted
+* @param resolutionType The type of resolve that was called (i.e. All or Single)
+*/
+export type PreResolutionInterceptorCallback<T = any> = (token: InjectionToken<T>, resolutionType: ResolutionType) => void;
 
-export interface PostResolutionInterceptorCallback<T = any> {
-    /**
-     * @param token The InjectionToken that was intercepted
-     * @param result The object that was resolved from the container
-     * @param resolutionType The type of resolve that was called (i.e. All or Single)
-     */
-    (token: InjectionToken<T>, result: T | T[], resolutionType: ResolutionType): void;
-}
+/**
+* @param token The InjectionToken that was intercepted
+* @param result The object that was resolved from the container
+* @param resolutionType The type of resolve that was called (i.e. All or Single)
+*/
+export type PostResolutionInterceptorCallback<T = any> = (token: InjectionToken<T>, result: T | T[], resolutionType: ResolutionType) => void;
 
 export interface DependencyContainer extends Disposable {
     register<T>(token: InjectionToken<T>, provider: ValueProvider<T>): DependencyContainer;
