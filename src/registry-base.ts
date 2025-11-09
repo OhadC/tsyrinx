@@ -1,6 +1,6 @@
-import {InjectionToken} from ".";
+import { InjectionToken } from ".";
 
-export default abstract class RegistryBase<T> {
+export abstract class RegistryBase<T> {
   protected _registryMap = new Map<InjectionToken<any>, T[]>();
 
   public entries(): IterableIterator<[InjectionToken<any>, T[]]> {

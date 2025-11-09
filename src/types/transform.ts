@@ -1,5 +1,3 @@
-interface Transform<TIn, TOut> {
-  transform: (incoming: TIn, ...args: any[]) => TOut;
-}
-
-export default Transform;
+export type Transform<TIn, TOut, TArgs extends any[] = []> = {
+  transform: (incoming: TIn, ...args: TArgs) => TOut;
+};

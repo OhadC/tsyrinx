@@ -1,12 +1,13 @@
-import FactoryProvider from "../providers/factory-provider";
-import InjectionToken from "../providers/injection-token";
-import TokenProvider from "../providers/token-provider";
-import ValueProvider from "../providers/value-provider";
-import ClassProvider from "../providers/class-provider";
-import constructor from "./constructor";
-import RegistrationOptions from "./registration-options";
-import Disposable from "./disposable";
-import InterceptorOptions from "./interceptor-options";
+import { ClassProvider } from "../providers/class-provider";
+import { FactoryProvider } from "../providers/factory-provider";
+import { InjectionToken } from "../providers/injection-token";
+import { TokenProvider } from "../providers/token-provider";
+import { ValueProvider } from "../providers/value-provider";
+import { ResolutionContext } from "../resolution-context";
+import { constructor } from "./constructor";
+import { Disposable } from "./disposable";
+import { InterceptionOptions } from "./interceptor-options";
+import { RegistrationOptions } from "./registration-options";
 
 export type ResolutionType = "Single" | "All";
 
@@ -31,7 +32,7 @@ export interface PostResolutionInterceptorCallback<T = any> {
   ): void;
 }
 
-export default interface DependencyContainer extends Disposable {
+export interface DependencyContainer extends Disposable {
   register<T>(
     token: InjectionToken<T>,
     provider: ValueProvider<T>
@@ -78,8 +79,8 @@ export default interface DependencyContainer extends Disposable {
    * @param token The dependency token
    * @return An instance of the dependency
    */
-  resolve<T>(token: InjectionToken<T>): T;
-  resolveAll<T>(token: InjectionToken<T>): T[];
+  resolve<T>(token: InjectionToken<T>, context?: ResolutionContext): T;
+  resolveAll<T>(token: InjectionToken<T>, context?: ResolutionContext): T[];
 
   /**
    * Check if the given dependency is registered
@@ -107,7 +108,7 @@ export default interface DependencyContainer extends Disposable {
   beforeResolution<T>(
     token: InjectionToken<T>,
     callback: PreResolutionInterceptorCallback<T>,
-    options?: InterceptorOptions
+    options?: InterceptionOptions
   ): void;
 
   /**
@@ -119,7 +120,7 @@ export default interface DependencyContainer extends Disposable {
   afterResolution<T>(
     token: InjectionToken<T>,
     callback: PostResolutionInterceptorCallback<T>,
-    options?: InterceptorOptions
+    options?: InterceptionOptions
   ): void;
 
   /**

@@ -1,16 +1,17 @@
-import {defineInjectionTokenMetadata} from "../reflection-helpers";
-import InjectionToken, {
+import {
+  InjectionToken,
   TokenDescriptor,
   TransformDescriptor
 } from "../providers/injection-token";
-import Transform from "../types/transform";
+import { defineInjectionTokenMetadata } from "../reflection-helpers";
+import { Transform } from "../types/transform";
 
 /**
  * Parameter decorator factory that allows for interface information to be stored in the constructor's metadata
  *
  * @return {Function} The parameter decorator
  */
-function injectAllWithTransform(
+export function injectAllWithTransform(
   token: InjectionToken<any>,
   transformer: InjectionToken<Transform<[any], any>>,
   ...args: any[]
@@ -28,4 +29,3 @@ function injectAllWithTransform(
   return defineInjectionTokenMetadata(data);
 }
 
-export default injectAllWithTransform;

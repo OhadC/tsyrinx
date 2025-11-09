@@ -1,6 +1,6 @@
-import Provider from "./provider";
+import { Provider } from "./provider";
 
-export default interface ValueProvider<T> {
+export  interface ValueProvider<T> {
   useValue: T;
 }
 

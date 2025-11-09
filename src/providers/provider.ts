@@ -1,9 +1,9 @@
-import ClassProvider, {isClassProvider} from "./class-provider";
-import ValueProvider, {isValueProvider} from "./value-provider";
-import TokenProvider, {isTokenProvider} from "./token-provider";
-import FactoryProvider, {isFactoryProvider} from "./factory-provider";
+import { ClassProvider, isClassProvider } from "./class-provider";
+import { FactoryProvider, isFactoryProvider } from "./factory-provider";
+import { TokenProvider, isTokenProvider } from "./token-provider";
+import { ValueProvider, isValueProvider } from "./value-provider";
 
-type Provider<T = any> =
+export type Provider<T = any> =
   | ClassProvider<T>
   | ValueProvider<T>
   | TokenProvider<T>
@@ -18,4 +18,3 @@ export function isProvider(provider: any): provider is Provider {
   );
 }
 
-export default Provider;

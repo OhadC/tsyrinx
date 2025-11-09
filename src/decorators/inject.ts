@@ -1,12 +1,12 @@
-import {defineInjectionTokenMetadata} from "../reflection-helpers";
-import InjectionToken, {TokenDescriptor} from "../providers/injection-token";
+import { InjectionToken, TokenDescriptor } from "../providers/injection-token";
+import { defineInjectionTokenMetadata } from "../reflection-helpers";
 
 /**
  * Parameter decorator factory that allows for interface information to be stored in the constructor's metadata
  *
  * @return {Function} The parameter decorator
  */
-function inject(
+export function inject(
   token: InjectionToken<any>,
   options?: {isOptional?: boolean}
 ): (
@@ -22,4 +22,3 @@ function inject(
   return defineInjectionTokenMetadata(data);
 }
 
-export default inject;

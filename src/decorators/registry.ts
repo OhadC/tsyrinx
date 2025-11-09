@@ -1,14 +1,14 @@
-import Provider from "../providers/provider";
-import InjectionToken from "../providers/injection-token";
-import RegistrationOptions from "../types/registration-options";
-import {instance as globalContainer} from "../dependency-container";
+import { instance as globalContainer } from "../dependency-container";
+import { InjectionToken } from "../providers/injection-token";
+import { Provider } from "../providers/provider";
+import { RegistrationOptions } from "../types/registration-options";
 
 /**
  * Class decorator factory that allows constructor dependencies to be registered at runtime.
  *
  * @return {Function} The class decorator
  */
-function registry(
+export function registry(
   registrations: ({
     token: InjectionToken;
     options?: RegistrationOptions;
@@ -22,5 +22,3 @@ function registry(
     return target;
   };
 }
-
-export default registry;

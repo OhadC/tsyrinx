@@ -1,5 +1,5 @@
-import RegistryBase from "./registry-base";
-import {InterceptionOptions} from "./types";
+import { RegistryBase } from "./registry-base";
+import { InterceptionOptions } from "./types";
 import {
   PostResolutionInterceptorCallback,
   PreResolutionInterceptorCallback
@@ -23,7 +23,7 @@ export class PostResolutionInterceptors extends RegistryBase<
   PostResolutionInterceptor
 > {}
 
-export default class Interceptors {
+export class Interceptors {
   public preResolution: PreResolutionInterceptors = new PreResolutionInterceptors();
   public postResolution: PostResolutionInterceptors = new PostResolutionInterceptors();
 }

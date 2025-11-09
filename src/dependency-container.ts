@@ -1,8 +1,6 @@
-import DependencyContainer, {
-  PostResolutionInterceptorCallback,
-  PreResolutionInterceptorCallback,
-  ResolutionType
-} from "./types/dependency-container";
+import { InjectionContext } from "./injection-context";
+import { Interceptors } from "./interceptors";
+import { DelayedConstructor } from "./lazy-helpers";
 import {
   isClassProvider,
   isFactoryProvider,
@@ -10,27 +8,29 @@ import {
   isTokenProvider,
   isValueProvider
 } from "./providers";
-import Provider, {isProvider} from "./providers/provider";
-import FactoryProvider from "./providers/factory-provider";
-import InjectionToken, {
+import { ClassProvider } from "./providers/class-provider";
+import { FactoryProvider } from "./providers/factory-provider";
+import {
+  InjectionToken,
   isConstructorToken,
-  isTokenDescriptor,
-  isTransformDescriptor,
   TokenDescriptor
 } from "./providers/injection-token";
-import TokenProvider from "./providers/token-provider";
-import ValueProvider from "./providers/value-provider";
-import ClassProvider from "./providers/class-provider";
-import RegistrationOptions from "./types/registration-options";
-import constructor from "./types/constructor";
-import Registry from "./registry";
-import Lifecycle from "./types/lifecycle";
-import ResolutionContext from "./resolution-context";
-import {formatErrorCtor} from "./error-helpers";
-import {DelayedConstructor} from "./lazy-helpers";
-import Disposable, {isDisposable} from "./types/disposable";
-import InterceptorOptions from "./types/interceptor-options";
-import Interceptors from "./interceptors";
+import { isProvider, Provider } from "./providers/provider";
+import { TokenProvider } from "./providers/token-provider";
+import { ValueProvider } from "./providers/value-provider";
+import { Registry } from "./registry";
+import { ResolutionContext } from "./resolution-context";
+import { constructor } from "./types/constructor";
+import {
+  DependencyContainer,
+  PostResolutionInterceptorCallback,
+  PreResolutionInterceptorCallback,
+  ResolutionType
+} from "./types/dependency-container";
+import { Disposable, isDisposable } from "./types/disposable";
+import { InterceptionOptions } from "./types/interceptor-options";
+import { Lifecycle } from "./types/lifecycle";
+import { RegistrationOptions } from "./types/registration-options";
 
 export type Registration<T = any> = {
   provider: Provider<T>;
@@ -456,7 +456,7 @@ class InternalDependencyContainer implements DependencyContainer {
   beforeResolution<T>(
     token: InjectionToken<T>,
     callback: PreResolutionInterceptorCallback<T>,
-    options: InterceptorOptions = {frequency: "Always"}
+    options: InterceptionOptions = {frequency: "Always"}
   ): void {
     this.interceptors.preResolution.set(token, {
       callback: callback,
@@ -467,7 +467,7 @@ class InternalDependencyContainer implements DependencyContainer {
   afterResolution<T>(
     token: InjectionToken<T>,
     callback: PostResolutionInterceptorCallback<T>,
-    options: InterceptorOptions = {frequency: "Always"}
+    options: InterceptionOptions = {frequency: "Always"}
   ): void {
     this.interceptors.postResolution.set(token, {
       callback: callback,

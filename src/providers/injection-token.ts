@@ -1,8 +1,8 @@
-import constructor from "../types/constructor";
-import {DelayedConstructor} from "../lazy-helpers";
-import Transform from "../types/transform";
+import { DelayedConstructor } from "../lazy-helpers";
+import { constructor } from "../types/constructor";
+import { Transform } from "../types/transform";
 
-type InjectionToken<T = any> =
+export type InjectionToken<T = any> =
   | constructor<T>
   | string
   | symbol
@@ -48,8 +48,7 @@ export interface TokenDescriptor {
 
 export interface TransformDescriptor {
   token: InjectionToken<any>;
-  transform: InjectionToken<Transform<any, any>>;
+  transform: InjectionToken<Transform<any, any, any[]>>;
   transformArgs: any[];
 }
 
-export default InjectionToken;

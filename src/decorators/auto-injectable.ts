@@ -1,11 +1,11 @@
-import constructor from "../types/constructor";
-import {getParamInfo} from "../reflection-helpers";
-import {instance as globalContainer} from "../dependency-container";
+import { instance as globalContainer } from "../dependency-container";
+import { formatErrorCtor } from "../error-helpers";
 import {
   isTokenDescriptor,
   isTransformDescriptor
 } from "../providers/injection-token";
-import {formatErrorCtor} from "../error-helpers";
+import { getParamInfo } from "../reflection-helpers";
+import { constructor } from "../types/constructor";
 
 /**
  * Class decorator factory that replaces the decorated class' constructor with
@@ -15,7 +15,7 @@ import {formatErrorCtor} from "../error-helpers";
  *
  * @return {Function} The class decorator
  */
-function autoInjectable(): (target: constructor<any>) => any {
+export function autoInjectable(): (target: constructor<any>) => any {
   return function(target: constructor<any>): constructor<any> {
     const paramInfo = getParamInfo(target);
 
@@ -66,4 +66,3 @@ function autoInjectable(): (target: constructor<any>) => any {
   };
 }
 
-export default autoInjectable;
