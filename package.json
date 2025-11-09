@@ -1,6 +1,6 @@
 {
     "name": "tsyrinx",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A lightweight, explicit DI container for JavaScript/TypeScript — no reflect-metadata, no decorators.",
     "type": "commonjs",
     "main": "./dist/index.js",
