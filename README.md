@@ -86,7 +86,7 @@ const foo = container.resolve(Foo);
 
 ---
 
-## 🧱 API
+## API
 
 ### `@injectable(options)`
 
